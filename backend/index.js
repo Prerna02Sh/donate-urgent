@@ -43,15 +43,17 @@ mongoDB();
 // 1. WEBHOOK ROUTE 
 app.use('/api/webhook', require('./Routes/webhook'));
 
+
+// 3. JSON MIDDLEWARE 
+app.use(express.json());
+
+
 // 2. CORS CONFIGURATION
 app.use(cors({
   origin: "https://donation-app-urgent.netlify.app",
   methods: ["GET", "POST"],
   credentials: true
 }));
-
-// 3. JSON MIDDLEWARE 
-app.use(express.json());
 
 // 4.  ROUTES
 app.get('/', (req, res) => {

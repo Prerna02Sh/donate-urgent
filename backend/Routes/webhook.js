@@ -21,7 +21,6 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    // Jab payment complete ho jaye (Success event)
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
         
@@ -29,7 +28,7 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
             // DATABASE STORAGE: 
             await User.create({
                 name: session.metadata.name,
-                amount: session.amount_total / 100 // Cents ko Dollars/Rupees mein badalna
+                amount: session.amount_total / 100 
             });
             console.log(' Success: Payment data saved to MongoDB');
         } catch (dbErr) {
