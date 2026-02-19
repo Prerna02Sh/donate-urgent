@@ -8,7 +8,7 @@ mongoDB();
 
 // app.use(cors());
 
-app.use('/api/webhook', require('../Routes/webhook'));
+app.use('/api/webhook', require('./Routes/webhook'));
 
 app.use(cors({
   origin: "https://donation-app-urgent.netlify.app",

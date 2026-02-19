@@ -75,7 +75,7 @@ router.post("/create-checkout-session", async (req, res) => {
                 quantity: 1,
             }],
             mode: 'payment',
-            // URL se name aur amount hata dein, ab iski zaroorat nahi
+            
             success_url: `https://donation-app-urgent.netlify.app/success`, 
             cancel_url: 'https://donation-app-urgent.netlify.app/cancel',
         });
