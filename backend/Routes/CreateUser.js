@@ -65,7 +65,7 @@ router.post("/create-checkout-session", async (req, res) => {
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
-            metadata: { name: name }, // YE LINE ADD KAREIN
+            metadata: { name: name }, 
             line_items: [{
                 price_data: {
                     currency: 'usd',
