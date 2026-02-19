@@ -57,8 +57,8 @@ router.post("/create-checkout-session", async (req, res) => {
                 quantity: 1,
             }],
             mode: 'payment',
-            success_url: `http://localhost:3000/success?name=${encodeURIComponent(name)}&amount=${amount}`, 
-            cancel_url: 'http://localhost:3000/cancel',
+            success_url: 'https://donation-app-urgent.netlify.app/success', 
+            cancel_url: 'https://donation-app-urgent.netlify.app/cancel',
         });
 
         res.json({ id: session.id, url: session.url });

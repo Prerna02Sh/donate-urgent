@@ -18,7 +18,7 @@ export default function Modal({ isOpen,onClose}){
         setIsDisabled(true); 
     };
 
-   //for custom button
+   //for custom button,
     const  handleButtonClick=()=>{
         setIsDisabled(!isDisabled);
         if (isDisabled) setAmount('');
