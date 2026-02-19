@@ -2,39 +2,62 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-export default function Success() {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const isSaved = useRef(false);
+// export default function Success() {
+//     const location = useLocation();
+//     const navigate = useNavigate();
+//     const isSaved = useRef(false);
 
-    useEffect(() => {
-        const saveData = async () => {
-            const params = new URLSearchParams(location.search);
-            const name = params.get('name');
-            const amount = params.get('amount');
+//     useEffect(() => {
+//         const saveData = async () => {
+//             const params = new URLSearchParams(location.search);
+//             const name = params.get('name');
+//             const amount = params.get('amount');
             
-            if (isSaved.current) return;
+//             if (isSaved.current) return;
 
-            if (name && amount && !isSaved.current) {
-                  isSaved.current = true; 
-                try {
-                    const response = await fetch('https://donate-urgent-backend.onrender.com/api/createuser', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name, amount: Number(amount) })
-                    });
+//             if (name && amount && !isSaved.current) {
+//                   isSaved.current = true; 
+//                 try {
+//                     const response = await fetch('https://donate-urgent-backend.onrender.com/api/createuser', {
+//                         method: 'POST',
+//                         headers: { 'Content-Type': 'application/json' },
+//                         body: JSON.stringify({ name, amount: Number(amount) })
+//                     });
                     
-                    const data = await response.json();
-                    if(data.success) {
-                        console.log("Data saved successfully!");
-                    }
-                } catch (err) {
-                    console.error("Error saving data:", err);
-                }
-            }
-        };
-        saveData();
-    }, [location]);
+//                     const data = await response.json();
+//                     if(data.success) {
+//                         console.log("Data saved successfully!");
+//                     }
+//                 } catch (err) {
+//                     console.error("Error saving data:", err);
+//                 }
+//             }
+//         };
+//         saveData();
+//     }, [location]);
+
+//     return (
+//         <div style={styles.container}>
+//             <div style={styles.card}>
+//                 <div style={styles.icon}>✅</div>
+//                 <h1 style={styles.title}>Payment Successful!</h1>
+//                 <p style={styles.message}>
+//                     Thank you for your generous support. Your donation has been 
+//                     successfully recorded in our database.
+//                 </p>
+//                 <button 
+//                     onClick={() => navigate('/')} 
+//                     style={styles.button}
+//                 >
+//                     Back to Home
+//                 </button>
+//             </div>
+//         </div>
+//     );
+// }
+
+export default function Success() {
+    const navigate = useNavigate();
 
     return (
         <div style={styles.container}>
@@ -42,13 +65,9 @@ export default function Success() {
                 <div style={styles.icon}>✅</div>
                 <h1 style={styles.title}>Payment Successful!</h1>
                 <p style={styles.message}>
-                    Thank you for your generous support. Your donation has been 
-                    successfully recorded in our database.
+                    Thank you! Your donation is being processed and will appear on the leaderboard shortly.
                 </p>
-                <button 
-                    onClick={() => navigate('/')} 
-                    style={styles.button}
-                >
+                <button onClick={() => navigate('/')} style={styles.button}>
                     Back to Home
                 </button>
             </div>

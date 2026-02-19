@@ -46,8 +46,26 @@ router.post("/create-checkout-session", async (req, res) => {
     const { name, amount } = req.body;
 
     try {
+        // const session = await stripe.checkout.sessions.create({
+        //     payment_method_types: ['card'],
+        //     line_items: [{
+        //         price_data: {
+        //             currency: 'usd',
+        //             product_data: { name: `Donation by ${name}` },
+        //             unit_amount: amount * 100, 
+        //         },
+        //         quantity: 1,
+        //     }],
+        //     mode: 'payment',
+        //     success_url: `https://donation-app-urgent.netlify.app/success?name=${encodeURIComponent(name)}&amount=${amount}`,
+        //     cancel_url: 'https://donation-app-urgent.netlify.app/cancel',
+
+        // });
+
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
+            metadata: { name: name }, // YE LINE ADD KAREIN
             line_items: [{
                 price_data: {
                     currency: 'usd',
@@ -57,9 +75,9 @@ router.post("/create-checkout-session", async (req, res) => {
                 quantity: 1,
             }],
             mode: 'payment',
-            success_url: `https://donation-app-urgent.netlify.app/success?name=${encodeURIComponent(name)}&amount=${amount}`,
+            // URL se name aur amount hata dein, ab iski zaroorat nahi
+            success_url: `https://donation-app-urgent.netlify.app/success`, 
             cancel_url: 'https://donation-app-urgent.netlify.app/cancel',
-
         });
 
         res.json({ id: session.id, url: session.url });
