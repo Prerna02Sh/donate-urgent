@@ -45,7 +45,7 @@ export default function Modal({ isOpen,onClose}){
     // }
 
     try {
-        // const response =await fetch('http://localhost:5000/api/createuser', {
+        // const response =await fetch('https://donate-urgent-backend.onrender.com/api/createuser', {
         //     method: 'POST',
         //     headers: {'Content-Type': 'application/json',
 
@@ -61,7 +61,7 @@ export default function Modal({ isOpen,onClose}){
 
             // here we are rendering to the stripe page
 
-            const stripeResponse = await fetch('http://localhost:5000/api/create-checkout-session', {
+            const stripeResponse = await fetch('https://donate-urgent-backend.onrender.com/api/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, amount })

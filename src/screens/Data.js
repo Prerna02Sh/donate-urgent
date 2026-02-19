@@ -5,7 +5,7 @@ export default function Data(){
     useEffect(()=>{
         const fetchDonations =async()=>{
             try{
-                const response=await fetch('http://localhost:5000/api/fetchdonations');
+                const response=await fetch('https://donate-urgent-backend.onrender.com/api/fetchdonations');
                 const data=await response.json();
                 setDonations(data);
 
