@@ -9,8 +9,11 @@ mongoDB();
 // app.use(cors());
 
 app.use(cors({
-    origin: "https://donation-app-urgent.netlify.app"
+  origin: "https://donation-app-urgent.netlify.app",
+  methods: ["GET", "POST"],
+  credentials: true
 }));
+
 app.use(express.json())
 
 app.get('/',(req,res)=>{
