@@ -9,13 +9,10 @@ const nodemailer = require('nodemailer');
 const transporter =nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
-    secure: false, // Port 587 ke liye false hona chahiye
+    secure: false, 
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-    },
-    tls: {
-        rejectUnauthorized: false // Isse connection block nahi hoga
     }
 });
 
@@ -52,21 +49,18 @@ router.post('/', express.raw({ type: 'application/json' }), async(req, res) => {
                 amount: session.amount_total / 100 
             });
 
+             console.log(' Success: Payment data saved to MongoDB');
+
             //email send from here to Prerna (custom) o/w session
-            console.log(' Success: Payment data saved to MongoDB');
-            const mailOptions = {
-                from: process.env.EMAIL_USER,
+    
+            const info = await transporter.sendMail({
+                from: `"Donation App" <${process.env.EMAIL_USER}>`,
                 to: session.customer_details.email, 
                 subject: 'Donation Successful - Thank You!',
-                text: `Hello ${session.metadata.name},\n\nThank you for your donation of ₹${session.amount_total / 100}. Your support means a lot to us!...Bhakk`
-            };
-
-            try {
-                const info = await transporter.sendMail(mailOptions);
-                console.log('Email sent successfully:', info.response);
-            }catch (emailErr) {
-                console.log('Error sending email:', emailErr);
-            }
+                text: `Hello ${session.metadata.name}, Thank you for your donation of ₹${session.amount_total / 100}. Your support means a lot to us!`,
+                html: `<b>Hello ${session.metadata.name},</b><p>Thank you for your donation of <strong>₹${session.amount_total / 100}</strong>.</p>`
+            });
+            console.log('Email sent successfully:', info.messageId);
 
 
         } catch (dbErr) {
