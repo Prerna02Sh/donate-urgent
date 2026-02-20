@@ -5,7 +5,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // Webhook endpoint logic
 
-router.post('/', express.raw({ type: 'application/json' }), async (req, res) => {
+router.post('/', express.raw({ type: 'application/json' }), async(req, res) => {
     const sig = req.headers['stripe-signature'];
     let event;
 
@@ -23,6 +23,9 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
 
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
+        console.log('STRIPE PAYLOAD');
+        console.log(JSON.stringify(session, null, 2)); 
+       
         
         try {
             // DATABASE STORAGE: 
