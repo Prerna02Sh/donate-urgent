@@ -7,10 +7,15 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
 
 const transporter =nodemailer.createTransport({
-    service:'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // Port 587 ke liye false hona chahiye
     auth: {
-        user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS  
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    },
+    tls: {
+        rejectUnauthorized: false // Isse connection block nahi hoga
     }
 });
 
