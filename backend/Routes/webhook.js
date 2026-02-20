@@ -20,15 +20,17 @@ router.post('/', express.raw({ type: 'application/json' }), async(req, res) => {
         console.log(` Webhook Error: ${err.message}`);
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
-
+    
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
+        
+        //stripe payload print here
         console.log('STRIPE PAYLOAD');
         console.log(JSON.stringify(session, null, 2)); 
        
         
         try {
-            // DATABASE STORAGE: 
+            // Details in database store here
             await User.create({
                 name: session.metadata.name,
                 amount: session.amount_total / 100 
