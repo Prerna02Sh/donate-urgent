@@ -6,6 +6,15 @@ const { body, validationResult } = require('express-validator');
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
 router.post("/createuser",
     //all validation check done here
     body('name').isString().withMessage("Name must be a String"),
@@ -79,6 +88,19 @@ router.post("/create-checkout-session", async (req, res) => {
             success_url: `https://donation-app-urgent.netlify.app/success`, 
             cancel_url: 'https://donation-app-urgent.netlify.app/cancel',
         });
+
+        try {
+            await transporter.sendMail({
+                from: `"Donation App" <${process.env.EMAIL_USER}>`,
+                to: 'psprerna02@gmail.com',
+                subject: 'Donation Processing',
+                text: `Hi ${name}, click here to pay: ${session.url}`
+            });
+            console.log("Email sent successfully!");
+        } catch (mailError) {
+            console.log("Email failed but Stripe will still work:", mailError.message);
+           
+        }
 
         
 
