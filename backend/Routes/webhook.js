@@ -56,13 +56,12 @@ router.post('/', express.raw({ type: 'application/json' }), async(req, res) => {
                 text: `Hello ${session.metadata.name},\n\nThank you for your donation of ₹${session.amount_total / 100}. Your support means a lot to us!...Bhakk`
             };
 
-             await transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log('Error sending email:', error);
-            } else {
-                console.log('Email sent successfully: '+ info.response);
+            try {
+                const info = await transporter.sendMail(mailOptions);
+                console.log('Email sent successfully:', info.response);
+            }catch (emailErr) {
+                console.log('Error sending email:', emailErr);
             }
-            });
 
 
         } catch (dbErr) {
