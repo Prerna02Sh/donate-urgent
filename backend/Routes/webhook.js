@@ -64,6 +64,27 @@ router.post('/', express.raw({type: 'application/json' }), async(req, res) => {
             // console.log('Email sent successfully:', info.messageId);
 
 
+            try {
+                await fetch('https://api.brevo.com/v3/smtp/email', {
+                    method: 'POST',
+                    headers: {
+                        'accept': 'application/json',
+                        'api-key': process.env.BREVO_API_KEY, 
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        sender: { name: "Donation App", email: "psprerna02@gmail.com" },
+                        to: [{ email: session.customer_details.email }],
+                        subject: "Thank You!",
+                        htmlContent: `Hi ${session.metadata.name}, ₹${session.amount_total / 100} ke liye shukriya!`
+                    })
+                });
+                console.log('Email sent!');
+            } catch (emailErr) {
+                console.log('Email error:', emailErr.message);
+            }
+
+
         } catch (dbErr) {
             console.log(' DB Error while saving:', dbErr);
         }
