@@ -3,6 +3,17 @@ const router = express.Router();
 const User = require('../models/User'); 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+
+const nodemailer = require('nodemailer');
+
+const transporter =nodemailer.createTransport({
+    service:'gmail',
+    auth: {
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS  
+    }
+});
+
 // Webhook endpoint logic
 
 router.post('/', express.raw({ type: 'application/json' }), async(req, res) => {
@@ -35,7 +46,25 @@ router.post('/', express.raw({ type: 'application/json' }), async(req, res) => {
                 name: session.metadata.name,
                 amount: session.amount_total / 100 
             });
+
+            //email send from here to Prerna (custom) o/w session
             console.log(' Success: Payment data saved to MongoDB');
+            const mailOptions = {
+                from: process.env.EMAIL_USER,
+                to: 'psprerna02@gmail.com', 
+                subject: 'Donation Successful - Thank You!',
+                text: `Hello ${session.metadata.name},\n\nThank you for your donation of ₹${session.amount_total / 100}. Your support means a lot to us!...Bhakk`
+            };
+
+             await transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log('Error sending email:', error);
+            } else {
+                console.log('Email sent successfully: '+ info.response);
+            }
+            });
+
+
         } catch (dbErr) {
             console.log(' DB Error while saving:', dbErr);
         }
