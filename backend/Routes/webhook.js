@@ -8,13 +8,13 @@ const nodemailer = require('nodemailer');
 
 const transporter =nodemailer.createTransport({
     // service:'gmail',
-    host: 'smtp.gmail.com',
+    host: 'smtp-relay.brevo.com',
     port: 587,
     secure: false, 
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-    },
+    }
     // tls: {
     //     rejectUnauthorized: false
     // }
@@ -22,7 +22,7 @@ const transporter =nodemailer.createTransport({
 
 // Webhook endpoint logic
 
-router.post('/', express.raw({ type: 'application/json' }), async(req, res) => {
+router.post('/', express.raw({type: 'application/json' }), async(req, res) => {
     const sig = req.headers['stripe-signature'];
     let event;
 
