@@ -7,12 +7,16 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
 
 const transporter =nodemailer.createTransport({
+    // service:'gmail',
     host: 'smtp.gmail.com',
     port: 587,
     secure: false, 
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
+    },
+    tls: {
+        rejectUnauthorized: false
     }
 });
 
@@ -57,7 +61,7 @@ router.post('/', express.raw({ type: 'application/json' }), async(req, res) => {
                 from: `"Donation App" <${process.env.EMAIL_USER}>`,
                 to: session.customer_details.email, 
                 subject: 'Donation Successful - Thank You!',
-                text: `Hello ${session.metadata.name}, Thank you for your donation of ₹${session.amount_total / 100}. Your support means a lot to us!`,
+                text: `Hello ${session.metadata.name}, Thank you for your donation of ₹${session.amount_total / 100}.`,
                 html: `<b>Hello ${session.metadata.name},</b><p>Thank you for your donation of <strong>₹${session.amount_total / 100}</strong>.</p>`
             });
             console.log('Email sent successfully:', info.messageId);
