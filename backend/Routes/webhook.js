@@ -51,7 +51,7 @@ router.post('/', express.raw({ type: 'application/json' }), async(req, res) => {
             console.log(' Success: Payment data saved to MongoDB');
             const mailOptions = {
                 from: process.env.EMAIL_USER,
-                to: 'psprerna02@gmail.com', 
+                to: session.customer_details.email, 
                 subject: 'Donation Successful - Thank You!',
                 text: `Hello ${session.metadata.name},\n\nThank you for your donation of ₹${session.amount_total / 100}. Your support means a lot to us!...Bhakk`
             };
