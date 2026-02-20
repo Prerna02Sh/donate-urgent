@@ -6,16 +6,16 @@ require('dotenv').config();
 
 const nodemailer = require('nodemailer');
 
-const transporter =nodemailer.createTransport({
-    service:'gmail',
-    // port: 465,
-    // secure: false, 
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
+// const transporter =nodemailer.createTransport({
+//     service:'gmail',
+//     // port: 465,
+//     // secure: false, 
+//     auth: {
+//         user: process.env.EMAIL_USER,
+//         pass: process.env.EMAIL_PASS
+//     }
    
-});
+// });
 
 // Webhook endpoint logic
 
@@ -54,14 +54,14 @@ router.post('/', express.raw({type: 'application/json' }), async(req, res) => {
 
             //email send from here to Prerna (custom) o/w session
     
-            const info = await transporter.sendMail({
-                from: `"Donation App" <${process.env.EMAIL_USER}>`,
-                to: session.customer_details.email, 
-                subject: 'Donation Successful - Thank You!',
-                text: `Hello ${session.metadata.name}, Thank you for your donation of ₹${session.amount_total / 100}.`,
-                html: `<b>Hello ${session.metadata.name},</b><p>Thank you for your donation of <strong>₹${session.amount_total / 100}</strong>.</p>`
-            });
-            console.log('Email sent successfully:', info.messageId);
+            // const info = await transporter.sendMail({
+            //     from: `"Donation App" <${process.env.EMAIL_USER}>`,
+            //     to: session.customer_details.email, 
+            //     subject: 'Donation Successful - Thank You!',
+            //     text: `Hello ${session.metadata.name}, Thank you for your donation of ₹${session.amount_total / 100}.`,
+            //     html: `<b>Hello ${session.metadata.name},</b><p>Thank you for your donation of <strong>₹${session.amount_total / 100}</strong>.</p>`
+            // });
+            // console.log('Email sent successfully:', info.messageId);
 
 
         } catch (dbErr) {

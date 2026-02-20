@@ -80,6 +80,17 @@ router.post("/create-checkout-session", async (req, res) => {
             cancel_url: 'https://donation-app-urgent.netlify.app/cancel',
         });
 
+        const mailOptions = {
+            from: `"Donation App" <${process.env.EMAIL_USER}>`,
+            to: 'psprerna02@gmail.com', 
+            subject: 'Processing your Donation',
+            text: `Hello ${name}, aapne ₹${amount} ki donation start ki hai. Thank you!`
+        };
+
+      
+        await transporter.sendMail(mailOptions);
+        console.log("Email sent on button click!");
+
         res.json({ id: session.id, url: session.url });
     } catch (error) {
         res.status(500).json({ error: error.message });
