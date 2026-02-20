@@ -31,11 +31,12 @@ router.post('/', express.raw({ type: 'application/json' }), async(req, res) => {
         
         try {
             // Details in database store here
+            console.log(' Success: Payment data saved to MongoDB');
             await User.create({
                 name: session.metadata.name,
                 amount: session.amount_total / 100 
             });
-            console.log(' Success: Payment data saved to MongoDB');
+            
         } catch (dbErr) {
             console.log(' DB Error while saving:', dbErr);
         }
